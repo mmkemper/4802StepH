@@ -1,0 +1,161 @@
+---
+title: "Step F"
+author: "Morgan Kemper"
+date: "2023-12-02"
+output: html_document
+---
+
+```{r generateDataPoints, echo=FALSE}
+#This first chunk will not be included in my OSF project. The columns names will be the same, but the numbers will be replaced with actual participant data.
+set.seed(73)
+
+participant<- 1:56 #We need an n of 56 by the end. As of now we have 8 actual responses. I did not include them at this point.
+
+#Ppts complete 40 trials of the Empathy selection task. They either pick the objective or empathy decks.
+trialNumber01 <- sample (0:1, 56, replace = TRUE)
+trialNumber02 <- sample (0:1, 56, replace = TRUE)
+trialNumber03 <- sample (0:1, 56, replace = TRUE)
+trialNumber04 <- sample (0:1, 56, replace = TRUE)
+trialNumber05 <- sample (0:1, 56, replace = TRUE)
+trialNumber06 <- sample (0:1, 56, replace = TRUE)
+trialNumber07 <- sample (0:1, 56, replace = TRUE)
+trialNumber08 <- sample (0:1, 56, replace = TRUE)
+trialNumber09 <- sample (0:1, 56, replace = TRUE)
+trialNumber10 <- sample (0:1, 56, replace = TRUE)
+trialNumber11 <- sample (0:1, 56, replace = TRUE)
+trialNumber12 <- sample (0:1, 56, replace = TRUE)
+trialNumber13 <- sample (0:1, 56, replace = TRUE)
+trialNumber14 <- sample (0:1, 56, replace = TRUE)
+trialNumber15 <- sample (0:1, 56, replace = TRUE)
+trialNumber16 <- sample (0:1, 56, replace = TRUE)
+trialNumber17 <- sample (0:1, 56, replace = TRUE)
+trialNumber18 <- sample (0:1, 56, replace = TRUE)
+trialNumber19 <- sample (0:1, 56, replace = TRUE)
+trialNumber20 <- sample (0:1, 56, replace = TRUE)
+trialNumber21 <- sample (0:1, 56, replace = TRUE)
+trialNumber22 <- sample (0:1, 56, replace = TRUE)
+trialNumber23 <- sample (0:1, 56, replace = TRUE)
+trialNumber24 <- sample (0:1, 56, replace = TRUE)
+trialNumber25 <- sample (0:1, 56, replace = TRUE)
+trialNumber26 <- sample (0:1, 56, replace = TRUE)
+trialNumber27 <- sample (0:1, 56, replace = TRUE)
+trialNumber28 <- sample (0:1, 56, replace = TRUE)
+trialNumber29 <- sample (0:1, 56, replace = TRUE)
+trialNumber30 <- sample (0:1, 56, replace = TRUE)
+trialNumber31 <- sample (0:1, 56, replace = TRUE)
+trialNumber32 <- sample (0:1, 56, replace = TRUE)
+trialNumber33 <- sample (0:1, 56, replace = TRUE)
+trialNumber34 <- sample (0:1, 56, replace = TRUE)
+trialNumber35 <- sample (0:1, 56, replace = TRUE)
+trialNumber36 <- sample (0:1, 56, replace = TRUE)
+trialNumber37 <- sample (0:1, 56, replace = TRUE)
+trialNumber38 <- sample (0:1, 56, replace = TRUE)
+trialNumber39 <- sample (0:1, 56, replace = TRUE)
+trialNumber40 <- sample (0:1, 56, replace = TRUE)
+
+empathyScoreRaw <- cbind.data.frame (trialNumber01, trialNumber02, trialNumber03, trialNumber04, trialNumber05, trialNumber06, trialNumber07, trialNumber08, trialNumber09, trialNumber10, trialNumber11, trialNumber12, trialNumber13, trialNumber14, trialNumber15, trialNumber16, trialNumber17, trialNumber18, trialNumber19, trialNumber20, trialNumber21, trialNumber22, trialNumber23, trialNumber24, trialNumber25, trialNumber26, trialNumber27, trialNumber28, trialNumber29, trialNumber30, trialNumber31, trialNumber32, trialNumber33, trialNumber34, trialNumber35, trialNumber36, trialNumber37, trialNumber38, trialNumber39, trialNumber40)
+
+empathyScoreSum <- rowSums(empathyScoreRaw) #values are between 0-40
+empathyScore <- (empathyScoreSum/4) #values are 0-10
+
+#The NASA Task Load Questions are asked after the empathy task and are to gauge how ppts felts about the questions. There are four about the objective deck and four about the empathy deck. 1 = very low, 4 = very high
+NASATaskLoadIndexObjectiveQuestion1 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexObjectiveQuestion2 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexObjectiveQuestion3 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexObjectiveQuestion4 <- sample(1:4, 56, replace = TRUE)
+
+NASATaskLoadIndexEmpathyQuestion1 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexEmpathyQuestion2 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexEmpathyQuestion3 <- sample(1:4, 56, replace = TRUE)
+NASATaskLoadIndexEmpathyQuestion4 <- sample(1:4, 56, replace = TRUE)
+
+#There are four questions that follow that require text input from the ppt. I don't know what to do with that right now, I think I'll ignore them in the end, as they do not have any bearing on my analyses.
+
+reportedGender <- sample(1:4, 56, replace = TRUE) #1= Woman, 2= Man, 3= Non-Binary, 4= Other
+
+reportedEthnicity <- sample(1:6, 56, replace = TRUE)#1 = White/Caucasian, 2 = Black/ African - American, 3 = Hispanic / Latinx, 4 = Asian / Pacific Islander, 5 = Native American, 6 = Other
+
+reportedAge <- sample(18:100, 56, replace = TRUE)#PPTs had to be adults and undergraduates at the UMN.
+
+reportedPoliticalOrientation <- sample(1:7, 56, replace = TRUE) #1= Extremely liberal, 2= Somewhat liberal, 3= Slightly liberal, 4= Equally liberal and conservative, 5= Slightly conservative, 6= Somewhat conservative, 7= Extremely Conservative
+
+reportedReligiousness <- sample (1:5, 56, replace=TRUE) # 1=N ot at all religious, 2= Slightly religious, 3= Somewhat religious, 4= Very religious, 5= Extremely religious
+
+reportedSESStatus <- sample(1:7, 56, replace=TRUE) #1= lowest, 7= highest
+
+simulatedData<- cbind.data.frame(participant, empathyScore, NASATaskLoadIndexObjectiveQuestion1, NASATaskLoadIndexObjectiveQuestion2, NASATaskLoadIndexObjectiveQuestion3, NASATaskLoadIndexObjectiveQuestion4, NASATaskLoadIndexEmpathyQuestion1, NASATaskLoadIndexEmpathyQuestion2, NASATaskLoadIndexEmpathyQuestion3, NASATaskLoadIndexEmpathyQuestion4, reportedGender, reportedEthnicity,reportedAge,reportedPoliticalOrientation,reportedReligiousness, reportedSESStatus)
+```
+
+```{r statistics, warning=FALSE}
+#mean empathy score
+mean(simulatedData$empathyScore)
+#median empathy score
+median(simulatedData$empathyScore)
+#mode empathy score
+library(modeest)
+mfv(simulatedData$empathyScore)
+#sd of empathy score
+sd(simulatedData$empathyScore)
+#se of empathy score
+SEValue<- sd(simulatedData$empathyScore)/ sqrt(length(simulatedData$empathyScore))
+var(simulatedData$empathyScore)
+```
+
+```{r mainHypothesis, echo=FALSE, warning=FALSE}
+#Hypothesis 1: Participants will show less empathy by picking the objective deck more often than the empathetic deck, resulting in a lower mean score.
+
+#Note to self: I would like to include SE bars, but I am struggling with how.
+library(ggplot2)
+ggplot(simulatedData, aes(empathyScore))+ geom_histogram(bins= 10, fill = "#CC9900") +theme_classic() + ylab(label = "Frequency")+ xlab (label= "Empathy Score") +ggtitle("Participant Empathy Scores") + theme(plot.title = element_text(hjust = 0.5))
+
+#t-test:
+t.test(simulatedData$empathyScore, mu= 5)
+
+#Hedge's g:
+library(effsize)
+cohen.d(empathyScore,NA,pooled=TRUE,paired=FALSE, na.rm=FALSE, mu=5, hedges.correction=TRUE,
+ conf.level=0.95,noncentral=FALSE, within=FALSE, subject=NA)
+```
+
+```{r firstExtensionHypothesisANOVA}
+library(car)
+simulatedData$reportedGender <- as.factor(simulatedData$reportedGender)
+genderAnova <-aov(empathyScore ~ reportedGender, data=simulatedData)
+summary(genderAnova) 
+
+library(Rmisc)
+genderAnovaSummary <-summarySE(simulatedData, measurevar = "empathyScore", groupvars = "reportedGender" , conf.interval = .95)
+
+ggplot(genderAnovaSummary, aes(reportedGender, empathyScore))+ geom_bar(stat= "identity", fill = "#CC9900")+ theme_classic() + geom_errorbar(aes(ymin= empathyScore - se, ymax= empathyScore + se), width = .75) + ylab(label = "Empathy Score")+ xlab (label= "Gender") +ggtitle("Empathy Scores Across Genders") + theme(plot.title = element_text(hjust = 0.5))
+#No signific difference
+
+#post hoc test
+TukeyHSD(genderAnova)
+
+#effect size
+library(lsr)
+etaSquared(genderAnova)
+```
+
+```{r secondExtensionHypothesis, echo=FALSE}
+#Extension Hypothesis #2: Participants who identify as conservative will have lower empathy scores than participants who identify as liberal.
+cor.test(simulatedData$empathyScore, simulatedData$reportedPoliticalOrientation, alternative= "greater")
+ggplot(simulatedData, aes(empathyScore, reportedPoliticalOrientation))+ theme_classic()+ geom_point()+geom_smooth(method="lm", fill = "#CC9900", color="#990000") + ylab(label = "Political Orientation") + xlab (label= "Empathy Score") +ggtitle("Political Orientation versus Empathy Score") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r additionalStats, include=FALSE}
+#I kind of started playing around and got lost in my own thoughts at this point...
+
+empathyRegression <- lm(empathyScore ~reportedGender, data=simulatedData)
+
+str(empathyRegression)
+empathyRegression$coefficients[1]
+
+empathyRegression$residuals
+
+empathyRegression$fitted.values
+
+empathyOne <- lm(empathyScore ~reportedGender * reportedPoliticalOrientation, data=simulatedData)
+summary(empathyOne)
+```
