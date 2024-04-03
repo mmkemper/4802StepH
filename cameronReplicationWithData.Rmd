@@ -1,0 +1,80 @@
+---
+title: "cameronReplicationWithData"
+author: "Morgan Kemper"
+date: "2024-04-01"
+output: html_document
+---
+```{r data} 
+empathyDat <- read.csv("C:/Users/15154/Documents/Undergraduate/4802/Cameron et al Replication/The Data/cameronReplicationCleanData.csv")
+
+```
+
+```{r libraries}
+library(modeest)
+library(ggplot2)
+library(effsize)
+library(car)
+library(Rmisc)
+library(lsr)
+```
+
+
+```{r statistics, warning=FALSE}
+#mean empathy score
+mean(empathyDat$empathyScore)
+#median empathy score
+median(empathyDat$empathyScore)
+#mode empathy score
+mfv(empathyDat$empathyScore)
+#sd of empathy score
+sd(empathyDat$empathyScore)
+#se of empathy score
+SEValue<- sd(empathyDat$empathyScore)/ sqrt(length(empathyDat$empathyScore))
+var(empathyDat$empathyScore)
+```
+
+```{r mainHypothesis, echo=FALSE, warning=FALSE}
+#Hypothesis 1: Participants will show less empathy by picking the objective deck more often than the empathetic deck, resulting in a lower mean score.
+
+#Note to self: I would like to include SE bars, but I am struggling with how.
+
+ggplot(empathyDat, aes(empathyScore))+ geom_histogram(bins= 10, fill = "#CC9900") +theme_classic() + ylab(label = "Frequency")+ xlab (label= "Empathy Score") +ggtitle("Participant Empathy Scores") + theme(plot.title = element_text(hjust = 0.5))
+
+#t-test:
+t.test(empathyDat$empathyScore, mu= 5)
+
+#Hedge's g:
+cohen.d(empathyDat$empathyScore, NA,pooled=TRUE,paired=FALSE, na.rm=FALSE, mu=5, hedges.correction=TRUE,
+ conf.level=0.95,noncentral=FALSE, within=FALSE, subject=NA)
+```
+
+```{r firstExtensionHypothesisANOVA}
+
+empathyDat$reportedGender <- as.factor(empathyDat$reportedGender)
+genderAnova <-aov(empathyScore ~ reportedGender, data=empathyDat)
+summary(genderAnova) 
+
+
+genderAnovaSummary <-summarySE(empathyDat, measurevar = "empathyScore", groupvars = "reportedGender" , conf.interval = .95)
+
+ggplot(genderAnovaSummary, aes(reportedGender, empathyScore))+ geom_bar(stat= "identity", fill = "#CC9900")+ theme_classic() + geom_errorbar(aes(ymin= empathyScore - se, ymax= empathyScore + se), width = .75) + ylab(label = "Empathy Score")+ xlab (label= "Gender") +ggtitle("Empathy Scores Across Genders") + theme(plot.title = element_text(hjust = 0.5))
+#No signific difference
+
+#post hoc test
+TukeyHSD(genderAnova)
+
+#effect size
+
+etaSquared(genderAnova)
+```
+
+```{r secondExtensionHypothesis, echo=FALSE}
+#Extension Hypothesis #2: Participants who identify as conservative will have lower empathy scores than participants who identify as liberal.
+
+##There's an error in this chunk of code and I can't find it right now.
+
+#cor.test(empathyDat$empathyScore, empathyDat$reportedPoliticalOrientation, alternative= "greater")
+#ggplot(empathyDat, aes(empathyScore, reportedPoliticalOrientation))+ theme_classic()+ geom_point()+geom_smooth(method="lm", fill = "#CC9900", color="#990000") + ylab(label = "Political Orientation") + xlab (label= "Empathy Score") +ggtitle("Political Orientation versus Empathy Score") + theme(plot.title = element_text(hjust = 0.5))
+```
+
+
